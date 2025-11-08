@@ -31,8 +31,9 @@ public class DialogueManager : MonoBehaviour
 
     // UI References within the Goal Template (Assuming it has a title/description)
     [Header("Goal Template Elements")]
-    public TextMeshProUGUI goalTitleText;
+    public TextMeshProUGUI characterTextDescription;
     public TextMeshProUGUI goalDescriptionText;
+    public Image goalPortraitImage;
 
     [Header("Flow Configuration")]
     [Tooltip("Speed of the typing effect (letters per second).")]
@@ -170,7 +171,10 @@ public class DialogueManager : MonoBehaviour
 
                 // For the purpose of this example, we'll just use the main text field
                 // as the description.
+                characterTextDescription.text = line.characterName;
                 goalDescriptionText.text = line.text;
+                goalPortraitImage.sprite = line.portrait;
+                
                 break;
         }
     }

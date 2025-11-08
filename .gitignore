@@ -94,6 +94,12 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db.meta
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
-/.[Ii]dea/
+
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+/.[Ii]dea/
+
+#External Libraries
+/[Aa]ssets/[Cc]asual [Gg]ame [Ss]ounds [Uu]6/
+/[Aa]ssets/[Jj]MO [Aa]ssets/

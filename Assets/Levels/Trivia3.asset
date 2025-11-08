@@ -10,14 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1819a7bcee67374abd7c88326bd221c, type: 3}
-  m_Name: Level1
+  m_Name: Trivia3
   m_EditorClassIdentifier: 
-  levelNumber: 0
+  levelNumber: 3
   levelName: 
   preGameDialogue: {fileID: 0}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
-  minigameType: 0
+  minigameType: 1
   objectiveType: 0
+  gemType: {fileID: 0}
   maxMoves: 8
-  triviaQuestions: []
+  triviaQuestions:
+  - question: "\xBFPor qu\xE9 era importante el <b>oro</b> para los <b>Muiscas</b>?"
+    answers:
+    - "Porque se vend\xEDa por un alto valor"
+    - Porque las piezas de oro se ofrendaban a los dioses
+    - Porque con este metal fabricaban armas
+    - Este metal no era importante para los Muiscas
+    correctAnswerIndex: 1

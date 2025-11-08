@@ -1,3 +1,4 @@
+using Match3;
 using UnityEngine;
 
 // ScriptableObject para configurar cada nivel
@@ -22,6 +23,7 @@ public class LevelData : ScriptableObject
     // --- Match 3 Configuration ---
     [Header("Match 3 Settings (if applicable)")]
     public ObjectiveType objectiveType;
+    public GemType gemType;
     public int maxMoves;
 
     // --- Trivia Configuration ---

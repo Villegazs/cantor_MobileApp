@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1819a7bcee67374abd7c88326bd221c, type: 3}
+  m_Name: Match2
+  m_EditorClassIdentifier: 
+  levelNumber: 2
+  levelName: 
+  preGameDialogue: {fileID: 0}
+  winDialogue: {fileID: 0}
+  loseDialogue: {fileID: 0}
+  minigameType: 0
+  objectiveType: 1
+  gemType: {fileID: 11400000, guid: 20ebbf5da11afef4c82d20388c72e0be, type: 2}
+  maxMoves: 7
+  triviaQuestions: []

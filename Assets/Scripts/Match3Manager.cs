@@ -1,6 +1,8 @@
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using Match3;
 
 public class Match3Manager : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class Match3Manager : MonoBehaviour
 
     [Header("UI References")]
     public TextMeshProUGUI movesText;
-    public TextMeshProUGUI objectiveText;
+    public Image objectiveImage;
     public GameObject gameUI;
 
     [Header("Game State")]
@@ -119,8 +121,9 @@ public class Match3Manager : MonoBehaviour
 
     private void UpdateUI()
     {
-        movesText.text = $"Movimientos: {remainingMoves}";
-        objectiveText.text = $"Objetivo: {GetObjectiveName(currentLevel.objectiveType)} al suelo";
+        movesText.text = $"{remainingMoves}";
+        objectiveImage.sprite = currentLevel.gemType.sprite;
+        Debug.Log($"Assets/Art/Objectives/{GetObjectiveName(currentLevel.objectiveType)}.png");
     }
 
     private string GetObjectiveName(ObjectiveType type)
@@ -128,13 +131,13 @@ public class Match3Manager : MonoBehaviour
         switch (type)
         {
             case ObjectiveType.Wire:
-                return "Alambre";
+                return "Wire";
             case ObjectiveType.Corn:
-                return "Maíz";
+                return "Corn";
             case ObjectiveType.Gold:
-                return "Oro";
+                return "Gold";
             default:
-                return "Desconocido";
+                return "Unknown";
         }
     }
 

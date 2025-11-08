@@ -10,9 +10,11 @@ public class TriviaManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject triviaUI;
+    public TextMeshProUGUI levelText;
     public TextMeshProUGUI questionText;
     public Button[] answerButtons; // Array de botones para las respuestas
     public TextMeshProUGUI[] answerTexts; // Textos de los botones
+    public Button continueButton;
 
     [Header("Feedback UI")]
     public GameObject correctFeedback;
@@ -46,6 +48,7 @@ public class TriviaManager : MonoBehaviour
         triviaUI.SetActive(false);
         if (correctFeedback != null) correctFeedback.SetActive(false);
         if (incorrectFeedback != null) incorrectFeedback.SetActive(false);
+        if (continueButton != null) continueButton.gameObject.SetActive(false);
 
         // Configurar listeners de los botones
         for (int i = 0; i < answerButtons.Length; i++)
@@ -75,6 +78,7 @@ public class TriviaManager : MonoBehaviour
         isGameActive = true;
 
         triviaUI.SetActive(true);
+        if (continueButton != null) continueButton.gameObject.SetActive(false);
         ShowQuestion(currentQuestionIndex);
 
         Debug.Log($"Trivia Game Started: {level.levelName}");
@@ -90,6 +94,7 @@ public class TriviaManager : MonoBehaviour
 
         TriviaQuestion question = currentLevel.triviaQuestions[questionIndex];
 
+        levelText.text = $"Pregunta de trivia - Etapa {currentLevel.levelNumber}";
         // Mostrar la pregunta
         questionText.text = question.question;
 
@@ -101,6 +106,7 @@ public class TriviaManager : MonoBehaviour
                 answerButtons[i].gameObject.SetActive(true);
                 answerTexts[i].text = question.answers[i];
                 answerButtons[i].interactable = true;
+                answerButtons[i].image.color = Color.white;
             }
             else
             {
@@ -130,6 +136,9 @@ public class TriviaManager : MonoBehaviour
         {
             // Respuesta correcta
             Debug.Log("¡Respuesta correcta!");
+            
+            answerButtons[answerIndex].image.color = Color.green;
+            
             if (correctFeedback != null)
             {
                 correctFeedback.SetActive(true);
@@ -142,6 +151,8 @@ public class TriviaManager : MonoBehaviour
         {
             // Respuesta incorrecta
             Debug.Log("Respuesta incorrecta.");
+            answerButtons[answerIndex].image.color = Color.red;
+            answerButtons[currentQuestion.correctAnswerIndex].image.color = Color.green;
             if (incorrectFeedback != null)
             {
                 incorrectFeedback.SetActive(true);
@@ -171,7 +182,7 @@ public class TriviaManager : MonoBehaviour
     private void GameWon()
     {
         isGameActive = false;
-        triviaUI.SetActive(false);
+        if (continueButton != null) continueButton.gameObject.SetActive(true);
         Debug.Log("¡Trivia completada exitosamente!");
         OnGameWin?.Invoke();
     }
@@ -179,7 +190,7 @@ public class TriviaManager : MonoBehaviour
     private void GameLost()
     {
         isGameActive = false;
-        triviaUI.SetActive(false);
+        if (continueButton != null) continueButton.gameObject.SetActive(true);
         Debug.Log("Trivia fallida. Respuesta incorrecta.");
         OnGameLose?.Invoke();
     }
