@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 using TMPro;
 
@@ -39,6 +40,9 @@ public class DialogueManager : MonoBehaviour
     private DialogueData currentDialogue;
     private int lineIndex;
     private bool isTyping = false;
+
+    [Header("Events")]
+    public UnityEvent OnDialogueEnd;
 
     // Static property for easy access to the Manager from any script (Singleton)
     public static DialogueManager Instance { get; private set; }
