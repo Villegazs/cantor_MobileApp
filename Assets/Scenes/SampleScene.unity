@@ -1925,6 +1925,8 @@ GameObject:
   - component: {fileID: 791695045}
   - component: {fileID: 791695047}
   - component: {fileID: 791695046}
+  - component: {fileID: 791695049}
+  - component: {fileID: 791695048}
   m_Layer: 0
   m_Name: Match3
   m_TagString: Untagged
@@ -1962,7 +1964,7 @@ MonoBehaviour:
   width: 8
   height: 8
   cellSize: 1
-  originPosition: {x: 0, y: 0, z: 0}
+  originPosition: {x: -4, y: -4, z: 0}
   debug: 1
   gemPrefab: {fileID: -9032718014464348799, guid: 8fa97208e2629184aa63ebff23f9066f, type: 3}
   gemTypes:
@@ -1975,6 +1977,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6171cf8ac1a30443bcd425d75ab206c, type: 2}
   - {fileID: 11400000, guid: 3e915fc0135a4fc49b10fded57d4f2a9, type: 2}
   ease: 5
+  explosion: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
+  audioManager: {fileID: 791695048}
 --- !u!114 &791695046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2073,6 +2077,121 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &791695048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791695043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbeb6840b4e746d2845e2f68896241d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  click: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+  deselect: {fileID: 8300000, guid: 881e3f52c86c94f26a60718d35627cd8, type: 3}
+  match: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  noMatch: {fileID: 8300000, guid: b99da9a57308d4ba1bee1cf1d9038376, type: 3}
+  woosh: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  pop: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+--- !u!82 &791695049
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791695043}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &908187728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,6 +2758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1427573110}
+  - component: {fileID: 1427573111}
   m_Layer: 0
   m_Name: Trivia
   m_TagString: Untagged
@@ -2661,6 +2781,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 976162337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1427573111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427573109}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec75bd081eb9a5c47a1ea3f71328cc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: {fileID: 0}
+  triviaUI: {fileID: 0}
+  questionText: {fileID: 0}
+  answerButtons: []
+  answerTexts: []
+  correctFeedback: {fileID: 0}
+  incorrectFeedback: {fileID: 0}
+  OnGameWin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameLose:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1504010354
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +16,9 @@ namespace Match3 {
         [SerializeField] Gem gemPrefab;
         [SerializeField] GemType[] gemTypes;
         [SerializeField] Ease ease = Ease.InQuad;
+        [SerializeField] private GameObject explosion;
+        
+        [SerializeField] AudioManager audioManager;
 
         GridSystem2D<GridObject<Gem>> grid;
 
@@ -22,6 +27,7 @@ namespace Match3 {
 
         void Awake() {
             inputReader = GetComponent<InputReader>();
+            audioManager = GetComponent<AudioManager>();
         }
         
         void Start() {
@@ -40,8 +46,10 @@ namespace Match3 {
             
             if (selectedGem == gridPos) {
                 DeselectGem();
+                audioManager.PlayDeselect();
             } else if (selectedGem == Vector2Int.one * -1) {
                 SelectGem(gridPos);
+                audioManager.PlayClick();
             } else {
                 StartCoroutine(RunGameLoop(selectedGem, gridPos));
             }
@@ -51,10 +59,146 @@ namespace Match3 {
             yield return StartCoroutine(SwapGems(gridPosA, gridPosB));
             
             // Matches?
+            List<Vector2Int> matches = FindMatches();
             // Make Gems explode
+            yield return StartCoroutine(ExplodeGems(matches));
+            //Make gems fall
+            yield return StartCoroutine(MakeGemsFall());
             // Fill empty spots
+            yield return StartCoroutine(FillEmptySpots());
 
             DeselectGem();
+        }
+
+        IEnumerator FillEmptySpots()
+        {
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    if (grid.GetValue(x, y) == null)
+                    {
+                        CreateGem(x, y);
+                        //SFX play sound
+                        audioManager.PlayPop();
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+            }
+
+        }
+
+        IEnumerator MakeGemsFall()
+        {
+            for (var x = 0; x < width; x++)
+            {
+                for (var y  = 0; y < height; y++)
+                {
+                    if (grid.GetValue(x, y) == null)
+                    {
+                        for (var i = y+1; i < height; i++)
+                        {
+                            if (grid.GetValue(x, i) == null) continue;
+                            
+                            var gem = grid.GetValue(x, i).GetValue();
+                            grid.SetValue(x,y,grid.GetValue(x,i));
+                            grid.SetValue(x,i,null);
+                            gem.transform
+                                .DOLocalMove(grid.GetWorldPositionCenter(x, y), 0.5f)
+                                .SetEase(ease);
+                            //SFX play sound
+                            audioManager.PlayWoosh();
+                            yield return new WaitForSeconds(0.1f);
+                            break;
+                        }
+                    }
+                }
+                
+            }
+        }
+
+        IEnumerator ExplodeGems(List<Vector2Int> matches)
+        {   
+          //SFX play sound
+          audioManager.PlayPop();
+          foreach (var match in matches)
+          {
+              var gem = grid.GetValue(match.x, match.y).GetValue();
+              grid.SetValue(match.x, match.y, null);
+
+              ExplodeVFX(match);
+              
+              gem.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f, 1, 0.5f );
+              
+              yield return new WaitForSeconds(0.1f);
+
+              gem.DestroyGem();
+          }
+        }
+
+        private void ExplodeVFX(Vector2Int match)
+        {
+            // TODO: Pool
+            var fx = Instantiate(explosion, transform);
+            fx.transform.position = grid.GetWorldPositionCenter(match.x, match.y);
+            Destroy(fx, 5f);
+        }
+
+
+        private List<Vector2Int> FindMatches()
+        {
+            HashSet<Vector2Int> matches = new();
+            //Horizontal matches
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width - 2; x++)
+                {
+                    var gemA = grid.GetValue(x, y);
+                    var gemB = grid.GetValue(x + 1, y);
+                    var gemC = grid.GetValue(x + 2, y);
+
+                    if (gemA == null || gemB == null || gemC == null) continue;
+
+                    if (gemA.GetValue().GetType() == gemB.GetValue().GetType() &&
+                        gemB.GetValue().GetType() == gemC.GetValue().GetType())
+                    {
+                        matches.Add(new Vector2Int(x, y));
+                        matches.Add(new Vector2Int(x + 1, y));
+                        matches.Add(new Vector2Int(x + 2, y));
+                    }
+                }
+            }
+            
+            //Vertical matches
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height - 2; y++)
+                {
+                    var gemA = grid.GetValue(x, y);
+                    var gemB = grid.GetValue(x, y + 1);
+                    var gemC = grid.GetValue(x, y + 2);
+
+                    if (gemA == null || gemB == null || gemC == null) continue;
+
+                    if (gemA.GetValue().GetType() == gemB.GetValue().GetType() &&
+                        gemB.GetValue().GetType() == gemC.GetValue().GetType())
+                    {
+                        matches.Add(new Vector2Int(x, y));
+                        matches.Add(new Vector2Int(x, y + 1));
+                        matches.Add(new Vector2Int(x, y + 2));
+                    }
+                }
+            }
+
+            if (matches.Count == 0)
+            {
+                audioManager.PlayNoMatch();
+            }
+            else
+            {
+                audioManager.PlayMatch();
+            }
+            return new List<Vector2Int>(matches);
         }
 
         IEnumerator SwapGems(Vector2Int gridPosA, Vector2Int gridPosB) {
