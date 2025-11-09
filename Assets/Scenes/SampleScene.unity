@@ -3006,7 +3006,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791695043}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddf4c2f13e66b0b4c9c27b3dab40e57c, type: 3}
   m_Name: 
@@ -3029,6 +3029,7 @@ MonoBehaviour:
   ease: 5
   explosion: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}
   audioManager: {fileID: 791695048}
+  specialGemType: {fileID: 11400000, guid: 519efe2502f421048b2bc7d2b282e6a7, type: 2}
 --- !u!114 &791695046
 MonoBehaviour:
   m_ObjectHideFlags: 0

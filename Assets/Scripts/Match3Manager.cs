@@ -80,8 +80,8 @@ public class Match3Manager : MonoBehaviour
     {
         if (!isGameActive) return;
 
-        // Verificar si es el objetivo correcto
-        if (objectiveType == currentLevel.objectiveType)
+        // Para el Match3, el objetivo siempre es llevar la gema especial al suelo
+        if (objectiveType == ObjectiveType.Special)
         {
             objectiveCompleted = true;
             CheckGameState();
@@ -123,7 +123,6 @@ public class Match3Manager : MonoBehaviour
     {
         movesText.text = $"{remainingMoves}";
         objectiveImage.sprite = currentLevel.gemType.sprite;
-        Debug.Log($"Assets/Art/Objectives/{GetObjectiveName(currentLevel.objectiveType)}.png");
     }
 
     private string GetObjectiveName(ObjectiveType type)

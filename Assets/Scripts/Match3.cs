@@ -24,6 +24,10 @@ namespace Match3 {
 
         InputReader inputReader;
         Vector2Int selectedGem = Vector2Int.one * -1;
+        private Vector2Int specialGemPosition;
+        private GridObject<Gem> specialGem = null;
+        private bool isSpecialGemCreated = false;
+        [SerializeField] private GemType specialGemType; // Asignar en el inspector
 
         void Awake() {
             inputReader = GetComponent<InputReader>();
@@ -41,9 +45,9 @@ namespace Match3 {
 
         void OnSelectGem() {
             var gridPos = grid.GetXY(Camera.main.ScreenToWorldPoint(inputReader.Selected));
-            
+
             if (!IsValidPosition(gridPos) || IsEmptyPosition(gridPos)) return;
-            
+
             if (selectedGem == gridPos) {
                 DeselectGem();
                 audioManager.PlayDeselect();
@@ -51,12 +55,31 @@ namespace Match3 {
                 SelectGem(gridPos);
                 audioManager.PlayClick();
             } else {
-                StartCoroutine(RunGameLoop(selectedGem, gridPos));
+                // Solo permitir intercambio con gemas adyacentes
+                if (IsAdjacentPosition(selectedGem, gridPos)) {
+                    StartCoroutine(RunGameLoop(selectedGem, gridPos));
+                } else {
+                    // Si no es adyacente, seleccionar la nueva gema
+                    DeselectGem();
+                    SelectGem(gridPos);
+                    audioManager.PlayClick();
+                }
             }
+        }
+
+        private bool IsAdjacentPosition(Vector2Int selectedGem, Vector2Int gridPos)
+        {
+            if(selectedGem.x == gridPos.x && Mathf.Abs(selectedGem.y - gridPos.y) == 1)
+                return true;
+            if(selectedGem.y == gridPos.y && Mathf.Abs(selectedGem.x - gridPos.x) == 1)
+                return true;
+            return false;
         }
 
         IEnumerator RunGameLoop(Vector2Int gridPosA, Vector2Int gridPosB) {
             yield return StartCoroutine(SwapGems(gridPosA, gridPosB));
+            
+            Match3Manager.Instance.OnPlayerMove();
             
             // Matches?
             List<Vector2Int> matches = FindMatches();
@@ -68,6 +91,10 @@ namespace Match3 {
             yield return StartCoroutine(FillEmptySpots());
 
             DeselectGem();
+            
+            CheckSpecialGemPosition();
+            
+            
         }
 
         IEnumerator FillEmptySpots()
@@ -76,6 +103,13 @@ namespace Match3 {
             {
                 for (var y = 0; y < height; y++)
                 {
+                    // Quitar esquinas (solo saltar la celda, no romper el bucle)
+                    if ((x == 0 && y == 0) ||
+                        (x == 0 && y == height - 1) ||
+                        (x == width - 1 && y == 0) ||
+                        (x == width - 1 && y == height - 1))
+                        continue;
+                    
                     if (grid.GetValue(x, y) == null)
                     {
                         CreateGem(x, y);
@@ -94,12 +128,16 @@ namespace Match3 {
             {
                 for (var y  = 0; y < height; y++)
                 {
+                    if ((y == 0 && x == width - 1) ||
+                        (y == 0 && x == 0)) continue;
+                    
                     if (grid.GetValue(x, y) == null)
                     {
                         for (var i = y+1; i < height; i++)
                         {
                             if (grid.GetValue(x, i) == null) continue;
                             
+
                             var gem = grid.GetValue(x, i).GetValue();
                             grid.SetValue(x,y,grid.GetValue(x,i));
                             grid.SetValue(x,i,null);
@@ -123,6 +161,9 @@ namespace Match3 {
           audioManager.PlayPop();
           foreach (var match in matches)
           {
+              // No destruir la gema especial
+              if (match == specialGemPosition) continue;
+              
               var gem = grid.GetValue(match.x, match.y).GetValue();
               grid.SetValue(match.x, match.y, null);
 
@@ -221,11 +262,47 @@ namespace Match3 {
 
         void InitializeGrid() {
             grid = GridSystem2D<GridObject<Gem>>.VerticalGrid(width, height, cellSize, originPosition, debug);
-            
+            int randomX = Random.Range(1, width - 2);
             for (var x = 0; x < width; x++) {
                 for (var y = 0; y < height; y++) {
+                    
+                    // Quitar esquinas (solo saltar la celda, no romper el bucle)
+                    if ((x == 0 && y == 0) ||
+                        (x == 0 && y == height - 1) ||
+                        (x == width - 1 && y == 0) ||
+                        (x == width - 1 && y == height - 1))
+                        continue;
+                       
+                    if (x == randomX && y == height - 1)
+                    {
+                        // Crear la gema especial en una posición aleatoria en la fila superior
+                        if (!isSpecialGemCreated) {
+                            CreateSpecialGem(randomX, height - 1);
+                            continue;
+                        }
+                    }
                     CreateGem(x, y);
                 }
+            }
+        }
+
+        void CreateSpecialGem(int x, int y) {
+            var gem = Instantiate(gemPrefab, grid.GetWorldPositionCenter(x, y), Quaternion.identity, transform);
+            specialGemPosition = new Vector2Int(x, y);
+            gem.SetType(specialGemType);
+            var gridObject = new GridObject<Gem>(grid, x, y);
+            gridObject.SetValue(gem);
+            specialGem = gridObject;
+            grid.SetValue(x, y, gridObject);
+            isSpecialGemCreated = true;
+        }
+
+        private void CheckSpecialGemPosition()
+        {
+            specialGemPosition = grid.GetXY(specialGem.GetValue().transform.position);
+            
+            if (specialGemPosition.y == 0) {
+                Match3Manager.Instance.OnObjectiveReachedBottom(ObjectiveType.Special);
             }
         }
 
@@ -243,7 +320,18 @@ namespace Match3 {
         bool IsEmptyPosition(Vector2Int gridPosition) => grid.GetValue(gridPosition.x, gridPosition.y) == null;
 
         bool IsValidPosition(Vector2 gridPosition) {
-            return gridPosition.x >= 0 && gridPosition.x < width && gridPosition.y >= 0 && gridPosition.y < height;
+            // Primero verificamos los límites básicos del grid
+            if (gridPosition.x < 0 || gridPosition.x >= width || gridPosition.y < 0 || gridPosition.y >= height)
+                return false;
+                
+            // Luego excluimos las esquinas
+            if ((gridPosition.x == 0 && gridPosition.y == 0) ||
+                (gridPosition.x == 0 && gridPosition.y == height - 1) ||
+                (gridPosition.x == width - 1 && gridPosition.y == 0) ||
+                (gridPosition.x == width - 1 && gridPosition.y == height - 1))
+                return false;
+                
+            return true;
         }
     }
 }

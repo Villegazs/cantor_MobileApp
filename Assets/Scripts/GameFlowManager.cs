@@ -15,6 +15,10 @@ public class GameFlowManager : MonoBehaviour
     public Match3Manager match3Manager;
     public TriviaManager triviaManager;
 
+    [Header("UI References")]
+    public GameObject[] levelButtons; // Arrastrar los botones de nivel aquí
+    private const string PROGRESS_KEY = "GameProgress";
+
     // Singleton
     public static GameFlowManager Instance { get; private set; }
 
@@ -50,8 +54,29 @@ public class GameFlowManager : MonoBehaviour
             triviaManager.OnGameLose.AddListener(OnMinigameLose);
         }
 
-        // Comenzar el primer nivel automáticamente
-        StartLevel(0);
+        // Cargar y aplicar el progreso guardado
+        LoadAndApplyProgress();
+    }
+
+    private void LoadAndApplyProgress()
+    {
+        int unlockedLevels = PlayerPrefs.GetInt(PROGRESS_KEY, 1); // Por defecto, nivel 1 desbloqueado
+
+        // Aplicar estados a los botones
+        for (int i = 0; i < levelButtons.Length; i++)
+        {
+            if (levelButtons[i] != null)
+            {
+                bool isUnlocked = i < unlockedLevels;
+                levelButtons[i].GetComponent<UnityEngine.UI.Button>().interactable = isUnlocked;
+
+                // Si tienes un componente visual para mostrar el estado de bloqueo
+                if (levelButtons[i].transform.Find("LockIcon") is Transform lockIcon)
+                {
+                    lockIcon.gameObject.SetActive(!isUnlocked);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -128,14 +153,25 @@ public class GameFlowManager : MonoBehaviour
         }
     }
 
+    private void UnlockNextLevel()
+    {
+        int currentProgress = PlayerPrefs.GetInt(PROGRESS_KEY, 1);
+        if (currentLevelIndex + 1 >= currentProgress)
+        {
+            PlayerPrefs.SetInt(PROGRESS_KEY, currentLevelIndex + 2); // +2 porque los índices empiezan en 0
+            PlayerPrefs.Save();
+            LoadAndApplyProgress(); // Actualizar la UI
+        }
+    }
+
     private void OnMinigameWin()
     {
-        Debug.Log("Minigame Won!");
+        UnlockNextLevel();
 
-        // Mostrar diálogo de victoria
-        if (currentLevel.winDialogue != null)
+        // Mostrar diálogo de victoria si existe
+        if (currentLevel.postGameWinDialogue != null)
         {
-            dialogueManager.StartDialogue(currentLevel.winDialogue);
+            dialogueManager.StartDialogue(currentLevel.postGameWinDialogue);
         }
 
         // Avanzar al siguiente nivel después de un delay o al terminar el diálogo
@@ -146,10 +182,10 @@ public class GameFlowManager : MonoBehaviour
     {
         Debug.Log("Minigame Lost!");
 
-        // Mostrar diálogo de derrota
-        if (currentLevel.loseDialogue != null)
+        // Mostrar diálogo de derrota si existe
+        if (currentLevel.postGameLoseDialogue != null)
         {
-            dialogueManager.StartDialogue(currentLevel.loseDialogue);
+            dialogueManager.StartDialogue(currentLevel.postGameLoseDialogue);
         }
 
         // Opción: reintentar el nivel o volver al menú
@@ -185,5 +221,12 @@ public class GameFlowManager : MonoBehaviour
     public void SkipToNextLevel()
     {
         LoadNextLevel();
+    }
+
+    public void ResetProgress()
+    {
+        PlayerPrefs.SetInt(PROGRESS_KEY, 1);
+        PlayerPrefs.Save();
+        LoadAndApplyProgress();
     }
 }

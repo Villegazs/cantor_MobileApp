@@ -29,6 +29,9 @@ public class LevelData : ScriptableObject
     // --- Trivia Configuration ---
     [Header("Trivia Settings (if applicable)")]
     public TriviaQuestion[] triviaQuestions;
+
+    public DialogueData postGameWinDialogue;
+    public DialogueData postGameLoseDialogue;
 }
 
 // Enum para tipos de minijuegos
@@ -44,6 +47,8 @@ public enum ObjectiveType
     Wire,   // Alambre - Nivel 1
     Corn,   // Maíz - Nivel 2
     Gold    // Oro - Nivel 3
+    ,
+    Special
 }
 
 // Estructura para preguntas de trivia

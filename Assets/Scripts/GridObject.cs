@@ -1,4 +1,6 @@
-﻿namespace Match3 {
+﻿using UnityEngine;
+
+namespace Match3 {
     public class GridObject<T> {
         GridSystem2D<GridObject<T>> grid;
         int x;
