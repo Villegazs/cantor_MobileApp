@@ -32,3 +32,8 @@ MonoBehaviour:
     portrait: {fileID: 21300000, guid: ef4831a9a4e70584f85284e0263cf9e2, type: 3}
     template: 1
     position: 1
+  - text: "Acomp\xE1\xF1ame y te ense\xF1ar\xE9."
+    characterName: Xiegua
+    portrait: {fileID: 21300000, guid: ef4831a9a4e70584f85284e0263cf9e2, type: 3}
+    template: 1
+    position: 1

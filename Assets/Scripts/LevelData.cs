@@ -8,6 +8,8 @@ public class LevelData : ScriptableObject
     [Header("Level Info")]
     public int levelNumber;
     public string levelName;
+    public Sprite levelImage;
+    public Sprite  levelDialogueImage;
 
     [Header("Dialogue References")]
     [Tooltip("Diálogo antes del minijuego")]

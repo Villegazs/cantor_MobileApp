@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1819a7bcee67374abd7c88326bd221c, type: 3}
-  m_Name: Match2
+  m_Name: Match3
   m_EditorClassIdentifier: 
-  levelNumber: 2
+  levelNumber: 3
   levelName: 
-  levelImage: {fileID: 21300000, guid: cf50fec483c64f6419dd1fa79cee629b, type: 3}
-  levelDialogueImage: {fileID: 21300000, guid: 1f048c9caad938e4d8f283c81c7b1022, type: 3}
+  levelImage: {fileID: 21300000, guid: d27d08dc74f626c48938db3ee9f146c4, type: 3}
+  levelDialogueImage: {fileID: 21300000, guid: 34fe41e9464298a44b16b22ffcc3372e, type: 3}
   preGameDialogue: {fileID: 0}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
   minigameType: 0
-  objectiveType: 1
+  objectiveType: 2
   gemType: {fileID: 11400000, guid: 20ebbf5da11afef4c82d20388c72e0be, type: 2}
-  maxMoves: 7
+  maxMoves: 5
   triviaQuestions: []
   postGameWinDialogue: {fileID: 0}
   postGameLoseDialogue: {fileID: 0}

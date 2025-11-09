@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Orquesta el flujo completo del juego: diálogos -> minijuego -> diálogo de resultado
@@ -16,8 +17,12 @@ public class GameFlowManager : MonoBehaviour
     public TriviaManager triviaManager;
 
     [Header("UI References")]
+    public GameObject levelSelectorUI;
+    public Image backgroundImage;
     public GameObject[] levelButtons; // Arrastrar los botones de nivel aquí
     private const string PROGRESS_KEY = "GameProgress";
+    
+    private Sprite mainMenuBackground;
 
     // Singleton
     public static GameFlowManager Instance { get; private set; }
@@ -36,6 +41,7 @@ public class GameFlowManager : MonoBehaviour
 
     void Start()
     {
+        mainMenuBackground = backgroundImage.sprite;
         // Verificar referencias
         if (dialogueManager == null) dialogueManager = DialogueManager.Instance;
         if (match3Manager == null) match3Manager = Match3Manager.Instance;
@@ -94,16 +100,19 @@ public class GameFlowManager : MonoBehaviour
         currentLevel = allLevels[levelIndex];
 
         Debug.Log($"Starting Level {currentLevel.levelNumber}: {currentLevel.levelName}");
+        levelSelectorUI.SetActive(false);
 
         // Mostrar diálogo previo al minijuego
         if (currentLevel.preGameDialogue != null)
         {
             dialogueManager.StartDialogue(currentLevel.preGameDialogue);
+            backgroundImage.sprite = currentLevel.levelDialogueImage;
         }
         else
         {
             // Si no hay diálogo, ir directo al minijuego
             StartCurrentMinigame();
+            
         }
     }
 
@@ -115,6 +124,11 @@ public class GameFlowManager : MonoBehaviour
         StartCurrentMinigame();
     }
 
+    public void OnMainMenuButtonClicked()
+    {
+        levelSelectorUI.SetActive(true);
+        backgroundImage.sprite = mainMenuBackground;
+    }
     private void StartCurrentMinigame()
     {
         if (currentLevel == null)
@@ -123,6 +137,8 @@ public class GameFlowManager : MonoBehaviour
             return;
         }
 
+        backgroundImage.sprite = currentLevel.levelImage;
+        
         switch (currentLevel.minigameType)
         {
             case MinigameType.Match3:
@@ -175,7 +191,8 @@ public class GameFlowManager : MonoBehaviour
         }
 
         // Avanzar al siguiente nivel después de un delay o al terminar el diálogo
-        Invoke(nameof(LoadNextLevel), 2f);
+        
+        //Invoke(nameof(LoadNextLevel), 2f);
     }
 
     private void OnMinigameLose()

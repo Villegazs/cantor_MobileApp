@@ -35,10 +35,16 @@ namespace Match3 {
         }
         
         void Start() {
-            InitializeGrid();
             inputReader.Fire += OnSelectGem;
         }
 
+        public void StartMatch3()
+        {
+            GameObject obj = this.gameObject;
+            obj.SetActive(true);
+            specialGemType = Match3Manager.Instance.currentLevel.gemType;
+            RestartGrid();
+        }
         void OnDestroy() {
             inputReader.Fire -= OnSelectGem;
         }
@@ -177,6 +183,27 @@ namespace Match3 {
           }
         }
 
+        IEnumerator ExplodeAllGems()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (grid.GetValue(x, y) == null) continue;
+                    
+                    var gem = grid.GetValue(x, y).GetValue();
+                    grid.SetValue(x, y, null);
+
+                    ExplodeVFX(new Vector2Int(x, y));
+                    gem.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f, 1, 0.5f );
+                    yield return new WaitForSeconds(0.1f);
+                    gem.DestroyGem();
+                }
+                
+            }
+            
+        }
+
         private void ExplodeVFX(Vector2Int match)
         {
             // TODO: Pool
@@ -260,6 +287,35 @@ namespace Match3 {
             yield return new WaitForSeconds(0.5f);
         }
 
+        public void RestartGrid()
+        {
+            if (grid == null)
+            {
+                InitializeGrid();
+                return;
+            }
+            
+            // Destruir todas las gemas existentes
+            for (var x = 0; x < width; x++) {
+                for (var y = 0; y < height; y++) {
+                    var gridObject = grid.GetValue(x, y);
+                    if (gridObject != null) {
+                        var gem = gridObject.GetValue();
+                        if (gem != null) {
+                            Destroy(gem.gameObject);
+                        }
+                    }
+                }
+            }
+            
+            // Resetear variables
+            isSpecialGemCreated = false;
+            specialGem = null;
+            selectedGem = Vector2Int.one * -1;
+            
+            // Inicializar nuevo grid
+            InitializeGrid();
+        }
         void InitializeGrid() {
             grid = GridSystem2D<GridObject<Gem>>.VerticalGrid(width, height, cellSize, originPosition, debug);
             int randomX = Random.Range(1, width - 2);
@@ -303,7 +359,10 @@ namespace Match3 {
             
             if (specialGemPosition.y == 0) {
                 Match3Manager.Instance.OnObjectiveReachedBottom(ObjectiveType.Special);
+                StartCoroutine(ExplodeAllGems());
             }
+
+
         }
 
         void CreateGem(int x, int y) {

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 2
   levelName: 
+  levelImage: {fileID: 21300000, guid: cf50fec483c64f6419dd1fa79cee629b, type: 3}
+  levelDialogueImage: {fileID: 21300000, guid: 1f048c9caad938e4d8f283c81c7b1022, type: 3}
   preGameDialogue: {fileID: 0}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
@@ -29,3 +31,5 @@ MonoBehaviour:
     - "Sabaj\xF3n"
     - Chicha
     correctAnswerIndex: 3
+  postGameWinDialogue: {fileID: 0}
+  postGameLoseDialogue: {fileID: 0}

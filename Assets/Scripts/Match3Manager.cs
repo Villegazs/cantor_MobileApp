@@ -22,7 +22,7 @@ public class Match3Manager : MonoBehaviour
     [Header("Events")]
     public UnityEvent OnGameWin;
     public UnityEvent OnGameLose;
-
+    
     // Singleton para fácil acceso
     public static Match3Manager Instance { get; private set; }
 
@@ -59,7 +59,6 @@ public class Match3Manager : MonoBehaviour
 
         gameUI.SetActive(true);
         UpdateUI();
-
         Debug.Log($"Match3 Game Started: {level.levelName}");
         Debug.Log($"Objective: Get {level.objectiveType} to bottom in {level.maxMoves} moves");
     }

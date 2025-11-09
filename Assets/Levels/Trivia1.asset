@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 1
   levelName: 
+  levelImage: {fileID: 21300000, guid: dbbb9ae060b0ff44dbafda3d6fbe54ab, type: 3}
+  levelDialogueImage: {fileID: 21300000, guid: 2e37cf04d261ea74bbdbd0647dd39b43, type: 3}
   preGameDialogue: {fileID: 0}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
@@ -30,3 +32,5 @@ MonoBehaviour:
     - Pieles
     - Fique
     correctAnswerIndex: 0
+  postGameWinDialogue: {fileID: 0}
+  postGameLoseDialogue: {fileID: 0}
