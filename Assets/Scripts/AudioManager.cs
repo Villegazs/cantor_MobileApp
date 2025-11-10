@@ -22,6 +22,10 @@ namespace Match3
         {
             if(audioSource == null) audioSource = GetComponent<AudioSource>();
         }
+        private void Start()
+        {
+           if(audioSource == null) audioSource = GetComponent<AudioSource>();
+        }
 
         public void PlayClick() => audioSource.PlayOneShot(click);
         public void PlayDeselect() => audioSource.PlayOneShot(deselect);
