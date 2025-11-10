@@ -85,7 +85,6 @@ namespace Match3 {
         IEnumerator RunGameLoop(Vector2Int gridPosA, Vector2Int gridPosB) {
             yield return StartCoroutine(SwapGems(gridPosA, gridPosB));
             
-            Match3Manager.Instance.OnPlayerMove();
             
             // Matches?
             List<Vector2Int> matches = FindMatches();
@@ -99,7 +98,7 @@ namespace Match3 {
             DeselectGem();
             
             CheckSpecialGemPosition();
-            
+            Match3Manager.Instance.OnPlayerMove();
             
         }
 
@@ -202,6 +201,20 @@ namespace Match3 {
                 
             }
             
+        }
+
+        public void GameOver()
+        {
+            StartCoroutine(FinishLevel());
+
+        }
+
+        IEnumerator FinishLevel()
+        {
+            yield return StartCoroutine(ExplodeAllGems());
+            
+            yield return new WaitForSeconds(0.5f);
+            GameFlowManager.Instance.levelSelectorUI.SetActive(true);
         }
 
         private void ExplodeVFX(Vector2Int match)

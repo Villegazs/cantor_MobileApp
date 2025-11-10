@@ -20,12 +20,16 @@ MonoBehaviour:
     portrait: {fileID: 0}
     template: 0
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "Aprender\xE1s el valor del <b>tejido</b>, del cultivo del <b>ma\xEDz</b>
       y la realizaci\xF3n de <b>rituales y ceremonias</b> propios de este pueblo.\r\n\xA1Iniciemos!"
     characterName: 
     portrait: {fileID: 0}
     template: 0
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "Bienvenido a la <b>Aldea Cantor</b>. Mi nombre es Xiegua, y me encargo
       de tejer las <b>mantas</b> que nos dan abrigo. El gran Bochica nos ense\xF1\xF3
       a hilar <b>algod\xF3n</b> y a tejerlas, aprovechando lo que la tierra nos ofrece."
@@ -33,6 +37,8 @@ MonoBehaviour:
     portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
     template: 1
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "He hecho un trueque con el que he recibido el <b>algod\xF3n</b> para que
       elaboremos una <b>manta</b>, y necesito que me ayudes a convertirlo en un <b>hilo</b>
       que sirva para tejerla. "
@@ -40,13 +46,34 @@ MonoBehaviour:
     portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
     template: 1
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "Acomp\xE1\xF1ame y te ense\xF1ar\xE9."
     characterName: Xiegua
     portrait: {fileID: 21300000, guid: ef4831a9a4e70584f85284e0263cf9e2, type: 3}
     template: 1
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: Consigue el hilo en 8 movimientos
     characterName: "Listo, \xA1comencemos!"
     portrait: {fileID: 21300000, guid: 8883deec231ba27418dcc20e5a0f3f3f, type: 3}
     template: 2
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "El hilo est\xE1 en la cima. Para que pueda bajar, debes eliminar los obst\xE1culos
+      que est\xE1n en su camino."
+    characterName: Xiegua
+    portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
+    template: 1
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Debes formar l\xEDneas de tres bloques iguales."
+    characterName: Xiegua
+    portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
+    template: 1
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}

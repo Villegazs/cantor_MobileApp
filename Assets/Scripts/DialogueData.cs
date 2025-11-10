@@ -28,6 +28,7 @@ public class DialogueLine
 
     // --- Extensibility and Modularity ---
 
+
     [Header("Template Configuration (Layout)")]
     [Tooltip("Defines which UI template should be used for this line.")]
     public TemplateType template = TemplateType.NarratorBox;
@@ -38,6 +39,10 @@ public class DialogueLine
     // You can add more fields here if needed:
     // public AudioClip voiceSound;
     // public string eventOnFinish; // To trigger a specific game function
+    public bool showMenu = false;
+    [Header("Optional: Additional UI Elements")]
+    [Tooltip("Optional: An image to display alongside the text (e.g., an item or icon).")]
+    public Sprite objectImage;
 }
 
 // 3. Enum to define the types of dialogue templates observed in the Figma frames.
@@ -45,8 +50,10 @@ public class DialogueLine
 public enum TemplateType
 {
     NarratorBox,        // Simple text box at the bottom, no portrait (e.g., first intro screen)
-    CharacterDialogue,  // Box with name and character portrait (e.g., Xiégua)
-    GameGoalMessage     // Pop-up window for mission/level goals (e.g., "Level 1 - Goal")
+    CharacterDialogue,  // Box with name and character portrait (e.g., Xiï¿½gua)
+    GameGoalMessage,     // Pop-up window for mission/level goals (e.g., "Level 1 - Goal")
+    CompleteGoalMessage,
+    GiftMessage
 }
 
 public enum CharacterPosition

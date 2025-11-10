@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4054f3ee1d0df77438be90fa001373ec, type: 3}
+  m_Name: Completado_Nivel2
+  m_EditorClassIdentifier: 
+  lines:
+  - text: "\xA1Felicitaciones!"
+    characterName: "Ni\xE9"
+    portrait: {fileID: 21300000, guid: becaa3256f93fb44f8c6c76005da3c1f, type: 3}
+    template: 3
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 21300000, guid: 46dbe7643a47e6c4983139ca6a37c458, type: 3}
+  - text: "Hemos terminado, \xA1muchas gracias, viajero! \nYa vuelvo."
+    characterName: "Ni\xE9"
+    portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
+    template: 1
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Unos minutos despu\xE9s..."
+    characterName: 
+    portrait: {fileID: 0}
+    template: 0
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Como muestra de gratitud por tu inter\xE9s, te invito a degustar unos
+      sabrosos <b>quisbones</b> y a beber de la refrescante <b>chicha.</b>"
+    characterName: "Ni\xE9"
+    portrait: {fileID: 21300000, guid: 206a12b9c14c8ce4ba312bc754babb1e, type: 3}
+    template: 4
+    position: 0
+    showMenu: 1
+    objectImage: {fileID: 21300000, guid: c58a6c89db3080647973061fb7f542b7, type: 3}

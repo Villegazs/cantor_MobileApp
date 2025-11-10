@@ -67,11 +67,11 @@ public class Match3Manager : MonoBehaviour
     public void OnPlayerMove()
     {
         if (!isGameActive) return;
-
+        
         remainingMoves--;
         UpdateUI();
-
         CheckGameState();
+        
     }
 
     // Llamar este método cuando el objetivo llegue al suelo

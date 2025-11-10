@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4054f3ee1d0df77438be90fa001373ec, type: 3}
+  m_Name: Completado_Nivel3
+  m_EditorClassIdentifier: 
+  lines:
+  - text: "\xA1Buen trabajo!"
+    characterName: Chezu
+    portrait: {fileID: 21300000, guid: d451af6af8658084dac392ec8fe49a07, type: 3}
+    template: 3
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 21300000, guid: d98dd03f022ca71419da5b5a62948395, type: 3}
+  - text: Muchas gracias, con estas ofrendas haremos una gran ceremonia. Te invito
+      a que observes con detenimiento este templo mientras voy por algo.
+    characterName: Chezu
+    portrait: {fileID: 21300000, guid: c539f4f36dac721409252b9243cfb5c5, type: 3}
+    template: 1
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Poco despu\xE9s..."
+    characterName: 
+    portrait: {fileID: 0}
+    template: 0
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Te traje una peque\xF1a muestra de las <b>piezas</b> que elaboramos, para
+      que la guardes como recuerdo. Ha sido un honor acompa\xF1arte y compartir contigo
+      nuestra cultura."
+    characterName: Chezu
+    portrait: {fileID: 21300000, guid: c539f4f36dac721409252b9243cfb5c5, type: 3}
+    template: 4
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 21300000, guid: a1a9d069a96cd584f8e4e7e0df728224, type: 3}
+  - text: "Nunca muere lo que en la memoria permanece.\nRecu\xE9rdanos siempre.\nTe
+      aseguro que haremos lo mismo."
+    characterName: Chezu
+    portrait: {fileID: 21300000, guid: d451af6af8658084dac392ec8fe49a07, type: 3}
+    template: 1
+    position: 0
+    showMenu: 1
+    objectImage: {fileID: 0}

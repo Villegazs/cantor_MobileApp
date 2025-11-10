@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 
 // This script must be attached to an object in the scene and configured
 // with all the necessary UI references.
@@ -16,7 +17,10 @@ public class DialogueManager : MonoBehaviour
     public GameObject characterContainer;
     [Tooltip("Panel for game/goal messages (e.g., Level 1).")]
     public GameObject goalContainer;
-
+    [Tooltip("Panel for winnig messages.")]
+    public GameObject winningContainer;
+    [Tooltip("Panel for gift messages.")]
+    public GameObject giftContainer;
     // UI References within the Character Template
     [Header("Character Template Elements")]
     public TextMeshProUGUI characterText;
@@ -34,6 +38,20 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI characterTextDescription;
     public TextMeshProUGUI goalDescriptionText;
     public Image goalPortraitImage;
+    
+    // UI References within the Goal Template (Assuming it has a title/description)
+    [Header("Complete Goal Template Elements")]
+    public TextMeshProUGUI completeGoalCharacterName;
+    public TextMeshProUGUI completeGoalDescriptionText;
+    public Image completeGoalPortraitImage;
+    public Image completeGoalObjectImage;
+    // UI References within the Winnig Template (Assuming it has a title/description)
+    [Header("Goal Template Elements")]
+    public TextMeshProUGUI giftTextDescription;
+    public TextMeshProUGUI characterGiftPlayerName;
+    public Image giftPortraitImage;
+    public Image giftObjectImage;
+
 
     [Header("Flow Configuration")]
     [Tooltip("Speed of the typing effect (letters per second).")]
@@ -97,6 +115,10 @@ public class DialogueManager : MonoBehaviour
             else if (currentDialogue.lines[lineIndex].template == TemplateType.CharacterDialogue)
             {
                 characterText.text = currentDialogue.lines[lineIndex].text;
+            }
+            else if (currentDialogue.lines[lineIndex].template == TemplateType.GiftMessage)
+            {
+                giftTextDescription.text = currentDialogue.lines[lineIndex].text;
             }
             // No typing effect for GoalMessage, so no action needed here
             return;
@@ -176,6 +198,31 @@ public class DialogueManager : MonoBehaviour
                 goalPortraitImage.sprite = line.portrait;
                 
                 break;
+            case TemplateType.CompleteGoalMessage:
+                winningContainer.SetActive(true);
+                StartCoroutine(TypeText(completeGoalDescriptionText, line.text));
+                if(line.characterName != null)
+                    completeGoalCharacterName.text = line.characterName;
+                if(line.portrait != null)
+                    completeGoalPortraitImage.sprite = line.portrait;
+                if(line.objectImage != null)
+                    completeGoalObjectImage.sprite = line.objectImage;
+                
+                // Additional fields can be added to DialogueLine for winning messages
+                break;
+            case TemplateType.GiftMessage:
+                giftContainer.SetActive(true);
+                if(line.characterName != null)
+                    characterGiftPlayerName.text = line.characterName;
+                if(line.portrait != null)
+                    giftPortraitImage.sprite = line.portrait;
+                
+                StartCoroutine(TypeText(giftTextDescription, line.text));
+                
+                if(line.objectImage != null)
+                    giftObjectImage.sprite = line.objectImage;
+                
+                break;
         }
     }
 
@@ -201,9 +248,12 @@ public class DialogueManager : MonoBehaviour
     private void EndDialogue()
     {
         DeactivateAllContainers();
+        bool showMenu = currentDialogue.lines[lineIndex -1].showMenu;
         currentDialogue = null;
         Debug.Log("Dialogue finished. Resuming game action.");
         // Here you can fire events or enable gameplay
+        if(showMenu)
+            GameFlowManager.Instance.levelSelectorUI.SetActive(true);
     }
 
     private void DeactivateAllContainers()
@@ -211,6 +261,8 @@ public class DialogueManager : MonoBehaviour
         narratorContainer.SetActive(false);
         characterContainer.SetActive(false);
         goalContainer.SetActive(false);
+        winningContainer.SetActive(false);
+        giftContainer.SetActive(false);
         // Ensure any active coroutines are stopped when changing lines
         StopAllCoroutines();
         isTyping = false;

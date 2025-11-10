@@ -16,7 +16,7 @@ MonoBehaviour:
   levelName: 
   levelImage: {fileID: 21300000, guid: cf50fec483c64f6419dd1fa79cee629b, type: 3}
   levelDialogueImage: {fileID: 21300000, guid: 1f048c9caad938e4d8f283c81c7b1022, type: 3}
-  preGameDialogue: {fileID: 0}
+  preGameDialogue: {fileID: 11400000, guid: 39c369913840d2c42bb53b8404b1385b, type: 2}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
   minigameType: 0
@@ -24,5 +24,5 @@ MonoBehaviour:
   gemType: {fileID: 11400000, guid: 20ebbf5da11afef4c82d20388c72e0be, type: 2}
   maxMoves: 7
   triviaQuestions: []
-  postGameWinDialogue: {fileID: 0}
+  postGameWinDialogue: {fileID: 11400000, guid: 85d37d09a4fc8ca428bef42d6be872fc, type: 2}
   postGameLoseDialogue: {fileID: 0}

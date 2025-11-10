@@ -16,28 +16,38 @@ MonoBehaviour:
   - text: "\xA1Sab\xEDa que lo har\xEDas!"
     characterName: Xiegua
     portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
-    template: 0
+    template: 3
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 21300000, guid: 8883deec231ba27418dcc20e5a0f3f3f, type: 3}
   - text: Buen trabajo. Ahora que tengo el <b>hilo</b>, puedo tejer una <b>manta.</b>
     characterName: Xiegua
     portrait: {fileID: 21300000, guid: ef4831a9a4e70584f85284e0263cf9e2, type: 3}
     template: 1
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "M\xE1s tarde..."
     characterName: 
     portrait: {fileID: 0}
     template: 0
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
   - text: "Te tengo una sorpresa, <b>\xA1esta manta que he tejido es para t\xED!</b>
       Nosotros regalamos mantas en muchas ocasiones especiales, como ceremonias sacerdotales
       o en la posesi\xF3n de los caciques."
     characterName: Xiegua
     portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
-    template: 1
+    template: 4
     position: 0
+    showMenu: 0
+    objectImage: {fileID: 21300000, guid: 28a9f991e5acb9b4c92e3af3cf5e5a5b, type: 3}
   - text: "Acabas de desbloquear el <b>MODO TRIVIA.</b>\nComprueba tus nuevos conocimientos
       con una <b>pregunta</b> que te permitir\xE1 pasar al segundo nivel."
     characterName: Xiegua
     portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
     template: 1
     position: 0
+    showMenu: 1
+    objectImage: {fileID: 0}
