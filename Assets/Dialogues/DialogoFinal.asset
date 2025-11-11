@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4054f3ee1d0df77438be90fa001373ec, type: 3}
   m_Name: DialogoFinal
   m_EditorClassIdentifier: 
-  lines: []
+  lines:
+  - text: "Es momento de <b>despedirnos</b>, gracias por compartir este viaje lleno
+      de aprendizajes y experiencias fascinantes. Esperamos que estos conocimientos
+      aporten significativamente a tu labor como <b>Arque\xF3logo</b>"
+    characterName: 
+    portrait: {fileID: 0}
+    template: 0
+    position: 0
+    showMenu: 1
+    objectImage: {fileID: 0}

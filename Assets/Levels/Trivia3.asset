@@ -16,6 +16,7 @@ MonoBehaviour:
   levelName: 
   levelImage: {fileID: 21300000, guid: d27d08dc74f626c48938db3ee9f146c4, type: 3}
   levelDialogueImage: {fileID: 21300000, guid: 34fe41e9464298a44b16b22ffcc3372e, type: 3}
+  goalImage: {fileID: 0}
   preGameDialogue: {fileID: 0}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
@@ -31,5 +32,5 @@ MonoBehaviour:
     - Porque con este metal fabricaban armas
     - Este metal no era importante para los Muiscas
     correctAnswerIndex: 1
-  postGameWinDialogue: {fileID: 0}
+  postGameWinDialogue: {fileID: 11400000, guid: ce3f41eb81c2dae41807e2714918c8b9, type: 2}
   postGameLoseDialogue: {fileID: 0}

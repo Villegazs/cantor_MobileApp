@@ -28,8 +28,6 @@ public class GameFlowManager : MonoBehaviour
     private const string PROGRESS_KEY = "GameProgress";
 
     private Sprite mainMenuBackground;
-    
-    public DialogueData dialogoFinal;
 
     // Singleton
     public static GameFlowManager Instance { get; private set; }
@@ -232,10 +230,16 @@ public class GameFlowManager : MonoBehaviour
         else
         {
             Debug.Log("¡Todos los niveles completados!");
-            levelSelectorUI.SetActive(false);
-            dialogueManager.StartDialogue(dialogoFinal);
             // Aquí podrías mostrar una pantalla de victoria final o créditos
         }
+    }
+
+    public void CompleteGame(DialogueData dialogoFinal)
+    {
+        if (currentLevelIndex != allLevels.Length - 1) return;
+        //dialogueManager.OnContinueClicked();
+        triviaManager.triviaUI.SetActive(false);
+        dialogueManager.StartDialogue(dialogoFinal);
     }
 
     /// <summary>

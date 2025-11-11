@@ -189,17 +189,19 @@ namespace Match3 {
                 for (int y = 0; y < height; y++)
                 {
                     if (grid.GetValue(x, y) == null) continue;
-                    
+
                     var gem = grid.GetValue(x, y).GetValue();
                     grid.SetValue(x, y, null);
 
                     ExplodeVFX(new Vector2Int(x, y));
-                    gem.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f, 1, 0.5f );
+                    gem.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f, 1, 0.5f);
                     yield return new WaitForSeconds(0.1f);
                     gem.DestroyGem();
                 }
-                
+
             }
+            
+            this.gameObject.SetActive(false);
             
         }
 
@@ -212,7 +214,7 @@ namespace Match3 {
         IEnumerator FinishLevel()
         {
             yield return StartCoroutine(ExplodeAllGems());
-            
+
             yield return new WaitForSeconds(0.5f);
             GameFlowManager.Instance.levelSelectorUI.SetActive(true);
         }
