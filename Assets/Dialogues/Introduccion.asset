@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4054f3ee1d0df77438be90fa001373ec, type: 3}
+  m_Name: Introduccion
+  m_EditorClassIdentifier: 
+  lines:
+  - text: "\xA1Te damos la bienvenida a esta <b>Aldea Muisca!</b> En tu papel de
+      <b>Arque\xF3logo</b>, vas a viajar al pasado para conocer la cotidianidad de
+      una cultura con un legado fascinante."
+    characterName: 
+    portrait: {fileID: 0}
+    template: 0
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}
+  - text: "Aprender\xE1s el valor del <b>tejido</b>, del cultivo del <b>ma\xEDz</b>
+      y la realizaci\xF3n de <b>rituales y ceremonias</b> propios de este pueblo.\r\n\xA1Iniciemos!"
+    characterName: 
+    portrait: {fileID: 0}
+    template: 0
+    position: 0
+    showMenu: 1
+    objectImage: {fileID: 0}

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,10 +20,16 @@ public class GameFlowManager : MonoBehaviour
     [Header("UI References")]
     public GameObject levelSelectorUI;
     public Image backgroundImage;
+    public Image goalImageUI;
+    public Image completeGoalImageUI;
+    public TextMeshProUGUI levelTitleText;
+
     public GameObject[] levelButtons; // Arrastrar los botones de nivel aquí
     private const string PROGRESS_KEY = "GameProgress";
-    
+
     private Sprite mainMenuBackground;
+    
+    public DialogueData dialogoFinal;
 
     // Singleton
     public static GameFlowManager Instance { get; private set; }
@@ -75,6 +82,8 @@ public class GameFlowManager : MonoBehaviour
             {
                 bool isUnlocked = i < unlockedLevels;
                 levelButtons[i].GetComponent<UnityEngine.UI.Button>().interactable = isUnlocked;
+                if(levelButtons[i].GetComponent<CanvasGroup>()) levelButtons[i].GetComponent<CanvasGroup>().alpha = isUnlocked ? 1f : 0.5f;
+
 
                 // Si tienes un componente visual para mostrar el estado de bloqueo
                 if (levelButtons[i].transform.Find("LockIcon") is Transform lockIcon)
@@ -101,6 +110,9 @@ public class GameFlowManager : MonoBehaviour
 
         Debug.Log($"Starting Level {currentLevel.levelNumber}: {currentLevel.levelName}");
         levelSelectorUI.SetActive(false);
+        goalImageUI.sprite = currentLevel.goalImage;
+        completeGoalImageUI.sprite = currentLevel.goalImage;
+        levelTitleText.text = $"Nivel {currentLevel.levelNumber}";
 
         // Mostrar diálogo previo al minijuego
         if (currentLevel.preGameDialogue != null)
@@ -220,6 +232,8 @@ public class GameFlowManager : MonoBehaviour
         else
         {
             Debug.Log("¡Todos los niveles completados!");
+            levelSelectorUI.SetActive(false);
+            dialogueManager.StartDialogue(dialogoFinal);
             // Aquí podrías mostrar una pantalla de victoria final o créditos
         }
     }

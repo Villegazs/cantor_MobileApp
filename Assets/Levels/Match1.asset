@@ -16,6 +16,7 @@ MonoBehaviour:
   levelName: 
   levelImage: {fileID: 21300000, guid: dbbb9ae060b0ff44dbafda3d6fbe54ab, type: 3}
   levelDialogueImage: {fileID: 21300000, guid: 2e37cf04d261ea74bbdbd0647dd39b43, type: 3}
+  goalImage: {fileID: 700723404962510452, guid: 10fb578facf3c47458b63c68e09184aa, type: 3}
   preGameDialogue: {fileID: 11400000, guid: 7c8c7422400c0d2408af2643e5894d50, type: 2}
   winDialogue: {fileID: 0}
   loseDialogue: {fileID: 0}
