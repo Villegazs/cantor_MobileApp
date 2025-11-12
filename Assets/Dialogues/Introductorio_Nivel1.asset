@@ -53,3 +53,10 @@ MonoBehaviour:
     position: 0
     showMenu: 0
     objectImage: {fileID: 0}
+  - text: "Debes formar l\xEDneas de tres o m\xE1s bloques iguales"
+    characterName: Xiegua
+    portrait: {fileID: 21300000, guid: cc520dc86cac81c42a9add990e24ee32, type: 3}
+    template: 1
+    position: 0
+    showMenu: 0
+    objectImage: {fileID: 0}

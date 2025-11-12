@@ -11,6 +11,8 @@ public class LevelData : ScriptableObject
     public Sprite levelImage;
     public Sprite levelDialogueImage;
     public Sprite goalImage;
+    public GemOrderData gemOrder;
+    public Vector2Int specialGemPosition;
 
     [Header("Dialogue References")]
     [Tooltip("Diálogo antes del minijuego")]

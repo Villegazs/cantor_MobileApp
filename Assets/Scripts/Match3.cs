@@ -45,6 +45,14 @@ namespace Match3 {
             specialGemType = Match3Manager.Instance.currentLevel.gemType;
             RestartGrid();
         }
+
+        public void StartMatch3WithCustomOrder()
+        {
+            GameObject obj = this.gameObject;
+            obj.SetActive(true);
+            GemOrderData gemOrderData = Match3Manager.Instance.currentLevel.gemOrder;
+            RestartCustomGrid(gemOrderData);
+        }
         void OnDestroy() {
             inputReader.Fire -= OnSelectGem;
         }
@@ -284,10 +292,11 @@ namespace Match3 {
             return new List<Vector2Int>(matches);
         }
 
-        IEnumerator SwapGems(Vector2Int gridPosA, Vector2Int gridPosB) {
+        IEnumerator SwapGems(Vector2Int gridPosA, Vector2Int gridPosB)
+        {
             var gridObjectA = grid.GetValue(gridPosA.x, gridPosA.y);
             var gridObjectB = grid.GetValue(gridPosB.x, gridPosB.y);
-            
+
             // See README for a link to the DOTween asset
             gridObjectA.GetValue().transform
                 .DOLocalMove(grid.GetWorldPositionCenter(gridPosB.x, gridPosB.y), 0.5f)
@@ -295,13 +304,45 @@ namespace Match3 {
             gridObjectB.GetValue().transform
                 .DOLocalMove(grid.GetWorldPositionCenter(gridPosA.x, gridPosA.y), 0.5f)
                 .SetEase(ease);
-            
+
             grid.SetValue(gridPosA.x, gridPosA.y, gridObjectB);
             grid.SetValue(gridPosB.x, gridPosB.y, gridObjectA);
-            
+
             yield return new WaitForSeconds(0.5f);
         }
+        public void RestartCustomGrid(GemOrderData customOrderData)
+        {
+            if (grid == null)
+            {
+                InitializeGrid();
+                return;
+            }
 
+            // Destruir todas las gemas existentes
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    var gridObject = grid.GetValue(x, y);
+                    if (gridObject != null)
+                    {
+                        var gem = gridObject.GetValue();
+                        if (gem != null)
+                        {
+                            Destroy(gem.gameObject);
+                        }
+                    }
+                }
+            }
+
+            // Resetear variables
+            isSpecialGemCreated = false;
+            specialGem = null;
+            selectedGem = Vector2Int.one * -1;
+
+            // Inicializar nuevo grid
+            InitializeGridWithCustomOrder(customOrderData);
+        }
         public void RestartGrid()
         {
             if (grid == null)
@@ -309,45 +350,53 @@ namespace Match3 {
                 InitializeGrid();
                 return;
             }
-            
+
             // Destruir todas las gemas existentes
-            for (var x = 0; x < width; x++) {
-                for (var y = 0; y < height; y++) {
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
                     var gridObject = grid.GetValue(x, y);
-                    if (gridObject != null) {
+                    if (gridObject != null)
+                    {
                         var gem = gridObject.GetValue();
-                        if (gem != null) {
+                        if (gem != null)
+                        {
                             Destroy(gem.gameObject);
                         }
                     }
                 }
             }
-            
+
             // Resetear variables
             isSpecialGemCreated = false;
             specialGem = null;
             selectedGem = Vector2Int.one * -1;
-            
+
             // Inicializar nuevo grid
             InitializeGrid();
         }
-        void InitializeGrid() {
+        void InitializeGrid()
+        {
             grid = GridSystem2D<GridObject<Gem>>.VerticalGrid(width, height, cellSize, originPosition, debug);
             int randomX = Random.Range(1, width - 2);
-            for (var x = 0; x < width; x++) {
-                for (var y = 0; y < height; y++) {
-                    
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+
                     // Quitar esquinas (solo saltar la celda, no romper el bucle)
                     if ((x == 0 && y == 0) ||
                         (x == 0 && y == height - 1) ||
                         (x == width - 1 && y == 0) ||
                         (x == width - 1 && y == height - 1))
                         continue;
-                       
+
                     if (x == randomX && y == height - 1)
                     {
                         // Crear la gema especial en una posición aleatoria en la fila superior
-                        if (!isSpecialGemCreated) {
+                        if (!isSpecialGemCreated)
+                        {
                             CreateSpecialGem(randomX, height - 1);
                             continue;
                         }
@@ -356,10 +405,50 @@ namespace Match3 {
                 }
             }
         }
+       public void InitializeGridWithCustomOrder(GemOrderData customOrderData)
+        {
+            List<GemType> customOrder = customOrderData.gemList;
+            
+           if (customOrder == null || customOrder.Count != width * height - 4)
+           {
+               Debug.LogError("Custom order list must match the grid size (width * height).");
+               return;
+           }
+       
+           grid = GridSystem2D<GridObject<Gem>>.VerticalGrid(width, height, cellSize, originPosition, debug);
+       
+           int index = -1;
+           for (var x = 0; x < width; x++)
+           {
+               for (var y = 0; y < height; y++)
+               {
+                    // Skip corners
+                    if ((x == 0 && y == 0) ||
+                        (x == 0 && y == height - 1) ||
+                        (x == width - 1 && y == 0) ||
+                        (x == width - 1 && y == height - 1))
+                        continue;
+
+                    index++;
+
+                    if (!isSpecialGemCreated && x == Match3Manager.Instance.currentLevel.specialGemPosition.x && y == Match3Manager.Instance.currentLevel.specialGemPosition.y)
+                    {
+                        CreateSpecialGem(x, y);
+                        continue;
+                    }
+                   // Create gems based on the custom order
+
+                   CreateCustomGem(x, y, customOrder[index]);
+               }
+           }
+       }
+        
+        
 
         void CreateSpecialGem(int x, int y) {
             var gem = Instantiate(gemPrefab, grid.GetWorldPositionCenter(x, y), Quaternion.identity, transform);
             specialGemPosition = new Vector2Int(x, y);
+            specialGemType = Match3Manager.Instance.currentLevel.gemType;
             gem.SetType(specialGemType);
             var gridObject = new GridObject<Gem>(grid, x, y);
             gridObject.SetValue(gem);
@@ -380,9 +469,19 @@ namespace Match3 {
 
         }
 
-        void CreateGem(int x, int y) {
+        void CreateGem(int x, int y)
+        {
             var gem = Instantiate(gemPrefab, grid.GetWorldPositionCenter(x, y), Quaternion.identity, transform);
             gem.SetType(gemTypes[Random.Range(0, gemTypes.Length)]);
+            var gridObject = new GridObject<Gem>(grid, x, y);
+            gridObject.SetValue(gem);
+            grid.SetValue(x, y, gridObject);
+        }
+        
+        void CreateCustomGem(int x, int y, GemType gemType)
+        {
+            var gem = Instantiate(gemPrefab, grid.GetWorldPositionCenter(x, y), Quaternion.identity, transform);
+            gem.SetType(gemType);
             var gridObject = new GridObject<Gem>(grid, x, y);
             gridObject.SetValue(gem);
             grid.SetValue(x, y, gridObject);

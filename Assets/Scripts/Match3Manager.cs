@@ -105,6 +105,7 @@ public class Match3Manager : MonoBehaviour
     {
         isGameActive = false;
         gameUI.SetActive(false);
+        GameFlowManager.Instance.levelSelectorUI.SetActive(true);
 
         if (won)
         {
