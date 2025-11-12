@@ -59,6 +59,7 @@ namespace Match3 {
 
         void OnSelectGem() {
             var gridPos = grid.GetXY(Camera.main.ScreenToWorldPoint(inputReader.Selected));
+            Debug.Log("Selected grid position: " + gridPos);
 
             if (!IsValidPosition(gridPos) || IsEmptyPosition(gridPos)) return;
 
@@ -209,22 +210,21 @@ namespace Match3 {
 
             }
             
-            this.gameObject.SetActive(false);
-            
         }
 
         public void GameOver()
         {
-            StartCoroutine(FinishLevel());
-
+            StartCoroutine(FinishLevel(Match3Manager.Instance.ObjectiveCompleted));
         }
 
-        IEnumerator FinishLevel()
+        IEnumerator FinishLevel(bool won)
         {
+            Debug.Log("Finishing Level - Exploding all gems");
             yield return StartCoroutine(ExplodeAllGems());
-
-            yield return new WaitForSeconds(0.5f);
-            GameFlowManager.Instance.levelSelectorUI.SetActive(true);
+            Debug.Log("Level Finished");
+            if (!won)
+                GameFlowManager.Instance.levelSelectorUI.SetActive(true);
+            gameObject.SetActive(false);
         }
 
         private void ExplodeVFX(Vector2Int match)
@@ -314,7 +314,7 @@ namespace Match3 {
         {
             if (grid == null)
             {
-                InitializeGrid();
+                InitializeGridWithCustomOrder(customOrderData);
                 return;
             }
 
@@ -429,7 +429,9 @@ namespace Match3 {
                         (x == width - 1 && y == height - 1))
                         continue;
 
+                    Debug.Log("Creating gem at: " + x + "," + y + " with index: " + (index + 1));
                     index++;
+
 
                     if (!isSpecialGemCreated && x == Match3Manager.Instance.currentLevel.specialGemPosition.x && y == Match3Manager.Instance.currentLevel.specialGemPosition.y)
                     {
@@ -463,7 +465,6 @@ namespace Match3 {
             
             if (specialGemPosition.y == 0) {
                 Match3Manager.Instance.OnObjectiveReachedBottom(ObjectiveType.Special);
-                StartCoroutine(ExplodeAllGems());
             }
 
 

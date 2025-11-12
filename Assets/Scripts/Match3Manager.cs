@@ -19,6 +19,8 @@ public class Match3Manager : MonoBehaviour
     private bool isGameActive = false;
     private bool objectiveCompleted = false;
 
+    public bool ObjectiveCompleted => objectiveCompleted;
+
     [Header("Events")]
     public UnityEvent OnGameWin;
     public UnityEvent OnGameLose;
@@ -104,8 +106,7 @@ public class Match3Manager : MonoBehaviour
     private void EndGame(bool won)
     {
         isGameActive = false;
-        gameUI.SetActive(false);
-        GameFlowManager.Instance.levelSelectorUI.SetActive(true);
+        gameUI.SetActive(isGameActive);
 
         if (won)
         {
@@ -114,10 +115,13 @@ public class Match3Manager : MonoBehaviour
         }
         else
         {
+
             Debug.Log("Derrota. No se completó el objetivo a tiempo.");
             OnGameLose?.Invoke();
         }
     }
+    
+
 
     private void UpdateUI()
     {
